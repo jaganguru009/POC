@@ -62,3 +62,8 @@ exports.patchUser = function (user, callback) {
     callback(null, user);
     return;
 }
+
+exports.deleteUser = function (user, callback) {
+    callback(null, user);
+    return;
+}

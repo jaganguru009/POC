@@ -17,6 +17,11 @@ var userSchema=mongoose.Schema(
         {
             type:Date,
             default:Date.now
+        },
+        userGroupId:
+        {
+            type:String,
+            required:true
         }
     }
 );
