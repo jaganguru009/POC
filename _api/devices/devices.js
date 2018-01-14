@@ -3,19 +3,19 @@ var router = express.Router();
 var async = require('async');
 var appRoot = require('app-root-path');
 var jwt = require('jsonwebtoken');
-var userService = require(appRoot + '/services/userService');
+var deviceService = require(appRoot + '/services/deviceService');
 var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function (req, res, next) {
-  userService.getUsers("users", function (err, results) {
-    res.send({ 'users': results });
+  deviceService.getDevices("devices", function (err, results) {
+    res.send({ 'devices': results });
   })
 
 });
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get user by id');
+  res.send('get device by id');
 });
 
 
@@ -23,7 +23,7 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      userService.postUser(req.body, function (err, results) {
+      deviceService.postDevice(req.body, function (err, results) {
         if (err) {
           res.json(err);
         }
@@ -42,12 +42,12 @@ router.post('/', function (req, res, next) {
 
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete user ');
+  res.send('delete device ');
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a user");
+  res.send("edit a device");
 });
 
 module.exports = router;

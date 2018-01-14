@@ -1,16 +1,46 @@
 var mongoose=require('mongoose');
 
-var userSchema=mongoose.Schema(
+var roomSchema=mongoose.Schema(
     {
-        userName:
+        roomNumber:
         {
             type:String,
             required:true,
             unique: true
         },
-        password:
+        roomType:
         {
             type:String,
+            required:true
+        },
+        floor:
+        {
+            type:String,
+            required:true
+        },
+        wing:
+        {
+            type:String,
+            required:true
+        },
+        maxPeople:
+        {
+            type:Number,
+            required:true
+        },
+        description:
+        {
+            type:String,
+            required:true
+        },
+        maxIpads:
+        {
+            type:Number,
+            required:true
+        },
+        staus:
+        {
+            type:Boolean,
             required:true
         },
         created:
@@ -18,12 +48,11 @@ var userSchema=mongoose.Schema(
             type:Date,
             default:Date.now
         },
-        userGroupId:
+        lastUpdated:
         {
-            type:String,
-            required:true
-        }
+            type:Date 
+        },
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var Room=module.exports=mongoose.model('rooms',roomSchema);

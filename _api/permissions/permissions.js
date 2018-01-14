@@ -3,19 +3,19 @@ var router = express.Router();
 var async = require('async');
 var appRoot = require('app-root-path');
 var jwt = require('jsonwebtoken');
-var userService = require(appRoot + '/services/userService');
+var permissionService = require(appRoot + '/services/permissionService');
 var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function (req, res, next) {
-  userService.getUsers("users", function (err, results) {
-    res.send({ 'users': results });
+  permissionService.getPermissions("permissions", function (err, results) {
+    res.send({ 'permissions': results });
   })
 
 });
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get user by id');
+  res.send('get permission by id');
 });
 
 
@@ -23,7 +23,7 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      userService.postUser(req.body, function (err, results) {
+      permissionService.postPermission(req.body, function (err, results) {
         if (err) {
           res.json(err);
         }
@@ -42,12 +42,12 @@ router.post('/', function (req, res, next) {
 
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete user ');
+  res.send('delete permission ');
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a user");
+  res.send("edit a permission");
 });
 
 module.exports = router;

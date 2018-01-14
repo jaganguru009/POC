@@ -1,14 +1,24 @@
 var mongoose=require('mongoose');
 
-var userSchema=mongoose.Schema(
+var deviceSchema=mongoose.Schema(
     {
-        userName:
+        UDID:
         {
             type:String,
             required:true,
             unique: true
         },
-        password:
+        status:
+        {
+            type:Number,
+            required:true
+        },
+        deviceNumber:
+        {
+            type:String,
+            required:true
+        },
+        roomNumber:
         {
             type:String,
             required:true
@@ -17,13 +27,12 @@ var userSchema=mongoose.Schema(
         {
             type:Date,
             default:Date.now
-        },
-        userGroupId:
+        }, 
+        lastUpdated:
         {
-            type:String,
-            required:true
+            type:Date 
         }
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var Device=module.exports=mongoose.model('devices',deviceSchema);

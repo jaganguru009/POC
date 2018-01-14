@@ -13,15 +13,49 @@ var userSchema=mongoose.Schema(
             type:String,
             required:true
         },
+        name:
+        {
+            type:String,
+            required:true
+        },
+        email:
+        {
+            type:String,
+            required:true
+        },
+        phone:
+        {
+            type:String,
+            required:true
+        },
+        empCode:
+        {
+            type:String,
+            required:true
+        },
+        roleId:
+        {
+            type:String,
+            required:true
+        },
+        departmentId:
+        {
+            type:String,
+            required:true
+        },
+        status:
+        {
+            type:Boolean,
+            required:true
+        },
         created:
         {
             type:Date,
             default:Date.now
         },
-        userGroupId:
+        lastUpdated:
         {
-            type:String,
-            required:true
+            type:Date 
         }
     }
 );

@@ -1,29 +1,28 @@
-var mongoose=require('mongoose');
+var mongoose = require('mongoose');
 
-var userSchema=mongoose.Schema(
+var permisionGroup = mongoose.Schema(
     {
-        userName:
-        {
-            type:String,
-            required:true,
-            unique: true
-        },
-        password:
-        {
-            type:String,
-            required:true
-        },
+        name:
+            {
+                type: String,
+                required: true,
+                unique: true
+            },
+        permissions:
+            {
+                type: Array[],
+                required: true
+            },
         created:
-        {
-            type:Date,
-            default:Date.now
-        },
-        userGroupId:
-        {
-            type:String,
-            required:true
-        }
+            {
+                type: Date,
+                default: Date.now
+            },
+        lastUpdated:
+            {
+                type: Date
+            }
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var PermissionGroup = module.exports = mongoose.model('permissionGroups', permisionGroup);

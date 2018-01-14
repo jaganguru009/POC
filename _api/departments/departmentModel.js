@@ -1,29 +1,34 @@
 var mongoose=require('mongoose');
 
-var userSchema=mongoose.Schema(
+var departmentSchema=mongoose.Schema(
     {
-        userName:
+        name:
         {
             type:String,
             required:true,
             unique: true
         },
-        password:
+        description:
         {
             type:String,
             required:true
         },
+        permistionGroupId:
+        {
+            type:String,
+            required:true
+        }
         created:
         {
             type:Date,
             default:Date.now
         },
-        userGroupId:
+        lastUpdated:
         {
-            type:String,
-            required:true
-        }
+            type:Date 
+        },
+       
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var Department=module.exports=mongoose.model('departments',departmentSchema);

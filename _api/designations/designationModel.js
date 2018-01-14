@@ -1,29 +1,28 @@
 var mongoose=require('mongoose');
 
-var userSchema=mongoose.Schema(
+var designationSchema=mongoose.Schema(
     {
-        userName:
+        name:
         {
             type:String,
             required:true,
             unique: true
-        },
-        password:
+        }, 
+        roleId:
         {
             type:String,
-            required:true
-        },
+            required:true 
+        }, 
         created:
         {
             type:Date,
             default:Date.now
         },
-        userGroupId:
+        lastUpdated:
         {
-            type:String,
-            required:true
-        }
+            type:Date 
+        },
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var Designation=module.exports=mongoose.model('designations',designationSchema);

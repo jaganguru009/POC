@@ -2,15 +2,20 @@ var mongoose=require('mongoose');
 
 var userSchema=mongoose.Schema(
     {
-        userName:
+        name:
         {
             type:String,
             required:true,
             unique: true
         },
-        password:
+        permissionGroup:
         {
             type:String,
+            required:true
+        },
+        status:
+        {
+            type:number,
             required:true
         },
         created:
@@ -18,10 +23,9 @@ var userSchema=mongoose.Schema(
             type:Date,
             default:Date.now
         },
-        userGroupId:
+        lastUpdated:
         {
-            type:String,
-            required:true
+            type: Date
         }
     }
 );
