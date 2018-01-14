@@ -15,7 +15,18 @@ router.get('/', function (req, res, next) {
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get PermissionGroup by id');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      permissionGroupService.getPermissionGroupById(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+      })
+    }
+  })
 });
 
 
@@ -37,17 +48,41 @@ router.post('/', function (req, res, next) {
   })
 });
 
-
-
-
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete PermissionGroup ');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      permissionGroupService.deleteDeletePermissionGroup(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
+
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a PermissionGroup");
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      departmentService.patchPermissionGroup(req.params.id, req.body, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 module.exports = router;

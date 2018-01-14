@@ -4,11 +4,34 @@ var roleModel = require(appRoot + '/_api/roles/roleModel');
 
 mongoose.connect("mongodb://localhost/hodelDB")
 
-exports.getroles = function (queryString, callback) {
-    var results = "response from role get";
-    callback(null, results);
+exports.getRoles = function (queryString, callback) {
+    roleModel.find((err, results) => {
+        if (err) {
+            // Note that this error doesn't mean nothing was found,
+            // it means the database had an error while searching, hence the 500 status
+            callback(null, err);
+        } else {
+            // send the list of all people
+            callback(null, results);
+        }
+    });
     return;
 }
+
+exports.getRoleById = function (id, callback) {
+    roleModel.findById(id, (err, role) => {
+        if (err) {
+            // Note that this error doesn't mean nothing was found,
+            // it means the database had an error while searching, hence the 500 status
+            callback(null, err);
+        } else {
+            // send the list of all people
+            callback(null, role);
+        }
+    });
+    return;
+}
+
 exports.postRole = function (role, callback) {
     roleModel.create(role, function (err, createdrole) {
         if (err) {
@@ -30,13 +53,48 @@ exports.postRole = function (role, callback) {
 
     }
     );
-} 
-exports.patchRole = function (role, callback) {
-    callback(null, role);
-    return;
 }
 
-exports.deleteRole = function (role, callback) {
-    callback(null, role);
-    return;
+exports.patchRole = function (id, role, callback) {
+    roleModel.findById(id, (err, result) => {
+        // Handle any possible database errors
+        if (err) {
+            callback(null, err);
+        } else {
+            // Update each attribute with any possible attribute that may have been submitted in the body of the request
+            // If that attribute isn't in the request body, default back to whatever it was before.
+            result.name = role.name || result.name;
+            result.permissionGroup = role.permissionGroup || result.permissionGroup;
+            result.status = role.status || result.status; 
+            result.created = role.created || result.created;
+            result.lastUpdated = Date.now;
+
+            // Save the updated document back to the database
+            result.save((err, res) => {
+                if (err) {
+                    callback(null, err);
+                }
+                // res.status(200).send(res);
+            });
+        }
+        callback(null, result);
+        return;
+    });
+}
+
+exports.deleteRole = function (id, callback) {
+    roleModel.findByIdAndRemove(id, (err, result) => {
+        // We'll create a simple object to send back with a message and the id of the document that was removed
+        // You can really do this however you want, though.
+        if (err) {
+            callback(null, err);
+        } else {
+            let response = {
+                message: "role successfully deleted",
+                id: result._id
+            };
+            callback(null, response);
+        }
+        return;
+    })
 }

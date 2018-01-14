@@ -15,7 +15,21 @@ router.get('/', function (req, res, next) {
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get Designation by id');
+
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      designationService.getDesignationById(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 
@@ -37,17 +51,40 @@ router.post('/', function (req, res, next) {
   })
 });
 
-
-
-
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete Designation ');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      designationService.deleteDesignation(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a Designation");
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      designationService.patchDesignation(req.params.id, req.body, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 module.exports = router;

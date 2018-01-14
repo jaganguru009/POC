@@ -8,14 +8,32 @@ var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function (req, res, next) {
   userService.getUsers("users", function (err, results) {
-    res.send({ 'users': results });
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send({ 'users': results });
+    }
+
   })
 
 });
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get user by id');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      departmentService.getUserById(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 
@@ -37,17 +55,39 @@ router.post('/', function (req, res, next) {
   })
 });
 
-
-
-
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete user ');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      departmentService.deleteUser(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      });
+    }
+  });
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a user");
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      departmentService.patchUser(req.params.id, req.body, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 module.exports = router;
