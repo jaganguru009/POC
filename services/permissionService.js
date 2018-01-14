@@ -4,12 +4,12 @@ var permissionModel = require(appRoot + '/_api/permissions/permissionModel');
 
 mongoose.connect("mongodb://localhost/hodelDB")
 
-exports.getpermissions = function (queryString, callback) {
+exports.getPermissions = function (queryString, callback) {
     var results = "response from permission get";
     callback(null, results);
     return;
 }
-exports.postpermission = function (permission, callback) {
+exports.postPermission = function (permission, callback) {
     permissionModel.create(permission, function (err, createdpermission) {
         if (err) {
             if (err.code === 11000) {
@@ -31,12 +31,12 @@ exports.postpermission = function (permission, callback) {
     }
     );
 } 
-exports.patchpermission = function (permission, callback) {
+exports.patchPermission = function (permission, callback) {
     callback(null, permission);
     return;
 }
 
-exports.deletepermission = function (permission, callback) {
+exports.deletePermission = function (permission, callback) {
     callback(null, permission);
     return;
 }

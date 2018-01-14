@@ -23,7 +23,7 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      departmentService.postDepatment(req.body, function (err, results) {
+      departmentService.postDepartment(req.body, function (err, results) {
         if (err) {
           res.json(err);
         }

@@ -9,7 +9,7 @@ exports.getpermisionGroups = function (queryString, callback) {
     callback(null, results);
     return;
 }
-exports.postpermisionGroup = function (permisionGroup, callback) {
+exports.postPermissionGroup = function (permisionGroup, callback) {
     permisionGroupModel.create(permisionGroup, function (err, createdpermisionGroup) {
         if (err) {
             if (err.code === 11000) {
@@ -31,12 +31,12 @@ exports.postpermisionGroup = function (permisionGroup, callback) {
     }
     );
 } 
-exports.patchpermisionGroup = function (permisionGroup, callback) {
+exports.patchPermisionGroup = function (permisionGroup, callback) {
     callback(null, permisionGroup);
     return;
 }
 
-exports.deletepermisionGroup = function (permisionGroup, callback) {
+exports.deletePermisionGroup = function (permisionGroup, callback) {
     callback(null, permisionGroup);
     return;
 }

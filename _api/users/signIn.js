@@ -9,8 +9,7 @@ var userService = require(appRoot + '/services/userService');
 // create new object
 router.post('/', function (req, res, next) {
 
-    userService.isUserValidated(req.body, function (err, isSuccess) {
-        console.log("isSuccess "+isSuccess);
+    userService.isUserValidated(req.body, function (err, isSuccess) { 
         if (isSuccess) {
             authenticationService.authenticate(req.body, function (err, token) {
                 if (err) {

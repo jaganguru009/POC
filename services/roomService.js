@@ -9,7 +9,7 @@ exports.getrooms = function (queryString, callback) {
     callback(null, results);
     return;
 }
-exports.postroom = function (room, callback) {
+exports.postRoom = function (room, callback) {
     roomModel.create(room, function (err, createdroom) {
         if (err) {
             if (err.code === 11000) {
@@ -31,12 +31,12 @@ exports.postroom = function (room, callback) {
     }
     );
 }
-exports.patchroom = function (room, callback) {
+exports.patchRoom = function (room, callback) {
     callback(null, room);
     return;
 }
 
-exports.deleteroom = function (room, callback) {
+exports.deleteRoom = function (room, callback) {
     callback(null, room);
     return;
 }

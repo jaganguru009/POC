@@ -9,7 +9,7 @@ exports.getroles = function (queryString, callback) {
     callback(null, results);
     return;
 }
-exports.postrole = function (role, callback) {
+exports.postRole = function (role, callback) {
     roleModel.create(role, function (err, createdrole) {
         if (err) {
             if (err.code === 11000) {
@@ -31,12 +31,12 @@ exports.postrole = function (role, callback) {
     }
     );
 } 
-exports.patchrole = function (role, callback) {
+exports.patchRole = function (role, callback) {
     callback(null, role);
     return;
 }
 
-exports.deleterole = function (role, callback) {
+exports.deleteRole = function (role, callback) {
     callback(null, role);
     return;
 }

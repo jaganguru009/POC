@@ -13,11 +13,11 @@ var departmentSchema=mongoose.Schema(
             type:String,
             required:true
         },
-        permistionGroupId:
-        {
-            type:String,
-            required:true
-        },
+        // permistionGroupId:
+        // {
+        //     type:String,
+        //     required:true
+        // },
         created:
         {
             type:Date,

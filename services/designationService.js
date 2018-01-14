@@ -9,7 +9,7 @@ exports.getdesignations = function (queryString, callback) {
     callback(null, results);
     return;
 }
-exports.postdesignation = function (designation, callback) {
+exports.postDesignation = function (designation, callback) {
     designationModel.create(designation, function (err, createddesignation) {
         if (err) {
             if (err.code === 11000) {

@@ -9,7 +9,7 @@ exports.getdevices = function (queryString, callback) {
     callback(null, results);
     return;
 }
-exports.postdevice = function (device, callback) {
+exports.postDevice = function (device, callback) {
     deviceModel.create(device, function (err, createddevice) {
         if (err) {
             if (err.code === 11000) {
@@ -31,12 +31,12 @@ exports.postdevice = function (device, callback) {
     }
     );
 } 
-exports.patchdevice = function (device, callback) {
+exports.patchDevice = function (device, callback) {
     callback(null, device);
     return;
 }
 
-exports.deletedevice = function (device, callback) {
+exports.deleteDevice = function (device, callback) {
     callback(null, device);
     return;
 }

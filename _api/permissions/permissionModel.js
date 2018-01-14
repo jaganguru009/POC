@@ -8,6 +8,11 @@ var permissionSchema = mongoose.Schema(
                 required: true,
                 unique: true
             },
+        departmentId:
+        {
+            type:String,
+            required:true
+        },
         created:
             {
                 type: Date,
