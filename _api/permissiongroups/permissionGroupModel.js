@@ -10,7 +10,7 @@ var permisionGroup = mongoose.Schema(
             },
         permissions:
             {
-                type: Array[],
+                type: Array,
                 required: true
             },
         created:

@@ -10,7 +10,7 @@ var deviceSchema=mongoose.Schema(
         },
         status:
         {
-            type:Number,
+            type:Boolean,
             required:true
         },
         deviceNumber:

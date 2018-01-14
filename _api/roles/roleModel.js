@@ -1,6 +1,6 @@
 var mongoose=require('mongoose');
 
-var userSchema=mongoose.Schema(
+var roleSchema=mongoose.Schema(
     {
         name:
         {
@@ -15,7 +15,7 @@ var userSchema=mongoose.Schema(
         },
         status:
         {
-            type:number,
+            type:Boolean,
             required:true
         },
         created:
@@ -30,4 +30,4 @@ var userSchema=mongoose.Schema(
     }
 );
 
-var User=module.exports=mongoose.model('users',userSchema);
+var Role=module.exports=mongoose.model('roles',roleSchema);

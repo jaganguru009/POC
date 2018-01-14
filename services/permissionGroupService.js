@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
-var permisionGroupModel = require(appRoot + '/_api/permisiongroups/permisionGroupModel');
+var permisionGroupModel = require(appRoot + '/_api/permissiongroups/permissionGroupModel');
 
 mongoose.connect("mongodb://localhost/hodelDB")
 
