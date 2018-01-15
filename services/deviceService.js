@@ -36,7 +36,7 @@ exports.postDevice = function (device, callback) {
         if (err) {
             if (err.code === 11000) {
                 err = {
-                    "errorType": "Duplicate deviceName",
+                    "errorType": "Duplicate UDID",
                     "errorText": "Same device name is available in the database,try new one"
                 }
             }
@@ -65,6 +65,7 @@ exports.patchDevice = function (id, device, callback) {
             result.status = device.status || result.status; 
             result.deviceNumber = device.deviceNumber || result.deviceNumber;            
             result.roomNumber = device.roomNumber || result.roomNumber;
+            result.deviceToken = device.deviceToken || result.deviceToken;
             result.created = device.created || result.created;
             result.lastUpdated = Date.now;
 

@@ -18,10 +18,14 @@ var deviceSchema=mongoose.Schema(
             type:String,
             required:true
         },
-        roomNumber:
+        deviceToken:
         {
             type:String,
             required:true
+        },
+        roomNumber:
+        {
+            type:String
         },
         created:
         {
