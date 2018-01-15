@@ -27,8 +27,15 @@ exports.getUserById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, user);
+            if (user == null) {
+                var response = {
+                    "message": "No user found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, user);
+            }
         }
     });
     return;
@@ -100,7 +107,7 @@ exports.patchUser = function (id, user, callback) {
             result.departmentId = user.departmentId || result.departmentId;
             result.status = user.status || result.status;
 
-            result.created = user.created || result.created;
+            //result.created = user.created || result.created;
             result.lastUpdated = Date.now;
 
 

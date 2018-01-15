@@ -25,8 +25,15 @@ exports.getPermissionById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, permission);
+            if (permission == null) {
+                var response = {
+                    "message": "No permission found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, permission);
+            }
         }
     });
     return;
@@ -63,7 +70,7 @@ exports.patchPermission = function (id, permission, callback) {
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.name = permission.name || result.name;
             result.departmentId = permission.departmentId || result.departmentId; 
-            result.created = permission.created || result.created;
+            //result.created = permission.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database

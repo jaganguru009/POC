@@ -5,7 +5,7 @@ var permissionGroupModel = require(appRoot + '/_api/permissiongroups/permissionG
 mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getpermisionGroups = function (queryString, callback) {
-      departmentModel.find((err, results) => {
+    departmentModel.find((err, results) => {
         if (err) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
@@ -18,14 +18,21 @@ exports.getpermisionGroups = function (queryString, callback) {
     return
 }
 exports.getPermissionGroupById = function (id, callback) {
-    permissionGroupModel.findById(id, (err, device) => {
+    permissionGroupModel.findById(id, (err, group) => {
         if (err) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, device);
+            if (group == null) {
+                var response = {
+                    "message": "No group found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, group);
+            }
         }
     });
     return;
@@ -48,10 +55,10 @@ exports.postPermissionGroup = function (permisionGroup, callback) {
             callback(null, createdpermisionGroup);
 
             return;
-        } 
+        }
     }
     );
-} 
+}
 exports.patchPermissionGroup = function (id, permissionGroup, callback) {
     permissionGroupModel.findById(id, (err, result) => {
         // Handle any possible database errors
@@ -61,8 +68,8 @@ exports.patchPermissionGroup = function (id, permissionGroup, callback) {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.name = permissionGroup.name || result.name;
-            result.permissions = permissionGroup.permissions || result.permissions; 
-            result.created = permissionGroup.created || result.created;
+            result.permissions = permissionGroup.permissions || result.permissions;
+            //result.created = permissionGroup.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database

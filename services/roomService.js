@@ -25,8 +25,15 @@ exports.getRoomById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, room);
+           if (room == null) {
+                var response = {
+                    "message": "No room found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, room);
+            }
         }
     });
     return;
@@ -70,7 +77,7 @@ exports.patchRoom = function (id, room, callback) {
             result.description = room.description || result.description;
             result.maxIpads = room.maxIpads || result.maxIpads;
             result.staus = room.staus || result.staus;
-            result.created = room.created || result.created;
+            //result.created = room.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database

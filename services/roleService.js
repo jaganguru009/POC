@@ -25,8 +25,15 @@ exports.getRoleById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, role);
+            if (role == null) {
+                var response = {
+                    "message": "No role found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, role);
+            }
         }
     });
     return;
@@ -66,7 +73,7 @@ exports.patchRole = function (id, role, callback) {
             result.name = role.name || result.name;
             result.permissionGroup = role.permissionGroup || result.permissionGroup;
             result.status = role.status || result.status; 
-            result.created = role.created || result.created;
+            //result.created = role.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database

@@ -25,8 +25,15 @@ exports.getDeviceById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, device);
+            if (device == null) {
+                var response = {
+                    "message": "No device found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, device);
+            }
         }
     });
     return;
@@ -52,7 +59,7 @@ exports.postDevice = function (device, callback) {
 
     }
     );
-} 
+}
 exports.patchDevice = function (id, device, callback) {
     deviceModel.findById(id, (err, result) => {
         // Handle any possible database errors
@@ -62,11 +69,11 @@ exports.patchDevice = function (id, device, callback) {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.UDID = device.UDID || result.UDID;
-            result.status = device.status || result.status; 
-            result.deviceNumber = device.deviceNumber || result.deviceNumber;            
+            result.status = device.status || result.status;
+            result.deviceNumber = device.deviceNumber || result.deviceNumber;
             result.roomNumber = device.roomNumber || result.roomNumber;
             result.deviceToken = device.deviceToken || result.deviceToken;
-            result.created = device.created || result.created;
+            //result.created = device.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database

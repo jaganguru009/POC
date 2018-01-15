@@ -24,8 +24,15 @@ exports.getDesignationById = function (id, callback) {
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
         } else {
-            // send the list of all people
-            callback(null, designation);
+            if (designation == null) {
+                var response = {
+                    "message": "No designation found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, designation);
+            }
         }
     });
     return;
@@ -51,7 +58,7 @@ exports.postDesignation = function (designation, callback) {
 
     }
     );
-} 
+}
 exports.patchdDesignation = function (designation, callback) {
     designationModel.findById(id, (err, result) => {
         // Handle any possible database errors
@@ -61,8 +68,8 @@ exports.patchdDesignation = function (designation, callback) {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.name = designation.name || result.name;
-            result.description = designation.description || result.description; 
-            result.created = designation.created || result.created;
+            result.description = designation.description || result.description;
+            //result.created = designation.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database
@@ -79,7 +86,7 @@ exports.patchdDesignation = function (designation, callback) {
 }
 
 exports.deleteDesignation = function (id, callback) {
-   designationModel.findByIdAndRemove(id, (err, result) => {
+    designationModel.findByIdAndRemove(id, (err, result) => {
         // We'll create a simple object to send back with a message and the id of the document that was removed
         // You can really do this however you want, though.
         if (err) {

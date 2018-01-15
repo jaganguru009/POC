@@ -26,7 +26,16 @@ exports.getDepartmentById = function (id, callback) {
             callback(null, err);
         } else {
             // send the list of all people
-            callback(null, department);
+            if (department == null) {
+                var response = {
+                    "message": "No document found"
+                }
+                callback(null, response);
+            }
+            else {
+                callback(null, department);
+            }
+
         }
     });
     return;
@@ -63,8 +72,8 @@ exports.patchDepartment = function (id, department, callback) {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.name = department.name || result.name;
-            result.description = department.description || result.description; 
-            result.created = department.created || result.created;
+            result.description = department.description || result.description;
+            //result.created = department.created || result.created;
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database
