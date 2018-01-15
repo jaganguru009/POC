@@ -8,11 +8,11 @@ var designationSchema=mongoose.Schema(
             required:true,
             unique: true
         }, 
-        // roleId:
-        // {
-        //     type:String,
-        //     required:true 
-        // }, 
+        departmentId:
+         {
+             type:String,
+             required:true 
+         }, 
         created:
         {
             type:Date,

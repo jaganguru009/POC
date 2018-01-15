@@ -76,7 +76,7 @@ exports.patchRoom = function (id, room, callback) {
             result.maxPeople = room.maxPeople || result.maxPeople;
             result.description = room.description || result.description;
             result.maxIpads = room.maxIpads || result.maxIpads;
-            result.staus = room.staus || result.staus;
+            result.status = room.status || result.status;
             //result.created = room.created || result.created;
             result.lastUpdated = Date.now;
 

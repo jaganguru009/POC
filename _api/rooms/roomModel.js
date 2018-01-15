@@ -38,7 +38,7 @@ var roomSchema=mongoose.Schema(
             type:Number,
             required:true
         },
-        staus:
+        status:
         {
             type:Boolean,
             required:true
