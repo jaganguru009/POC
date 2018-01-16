@@ -73,16 +73,14 @@ router.delete('/:id', function (req, res, next) {
 router.patch('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      deviceService.patchDevice(req.params.id, req.body, function (err, results) {
-        if (err) {
-          res.json(err);
-        }
-        else {
-          res.json(results);
-        }
-
-      })
-
+      deviceService.patchDevice(req.params.id, req.body, function (err,results) { 
+          if(err)
+          {
+            res.json(err);  
+            return;
+          }
+          res.json(results); 
+      }); 
     }
   })
 });

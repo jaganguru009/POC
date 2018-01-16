@@ -61,7 +61,7 @@ router.post('/', function (req, res, next) {
 router.delete('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      permissionGroupService.deleteDeletePermissionGroup(req.params.id, function (err, results) {
+      permissionGroupService.deletePermissionGroup(req.params.id, function (err, results) {
         if (err) {
           res.json(err);
         }
@@ -81,12 +81,10 @@ router.patch('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
       permissionGroupService.patchPermissionGroup(req.params.id, req.body, function (err, results) {
-        if (err) {
-          console.log("error 1")
+        if (err) { 
           res.json(err);
         }
-        else {
-          console.log("error 2")
+        else { 
           res.json(results);
         }
 

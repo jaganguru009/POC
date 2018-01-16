@@ -62,27 +62,29 @@ exports.patchDevice = function (id, device, callback) {
         // Handle any possible database errors
         if (err) {
             callback(null, err);
+            return;
         } else {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
-            result.UDID = device.UDID || result.UDID;
+            result.UDID= device.UDID|| result.UDID;
             result.status = device.status || result.status;
             result.deviceNumber = device.deviceNumber || result.deviceNumber;
             result.roomNumber = device.roomNumber || result.roomNumber;
             result.deviceToken = device.deviceToken || result.deviceToken;
             //result.created = device.created || result.created;
-            result.lastUpdated = Date.now;
+            result.lastUpdated = Date.now();
 
             // Save the updated document back to the database
-            result.save((err, res) => {
+            result.save((err, result) => {
                 if (err) {
-                    callback(null, err);
+                   callback(null, err);
+                     return;
                 }
-                // res.status(200).send(res);
+                 callback(null, result);
+                  return;
             });
-        }
-        callback(null, result);
-        return;
+        } 
+       
     });
 }
 
