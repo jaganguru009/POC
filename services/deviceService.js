@@ -40,6 +40,34 @@ exports.getDeviceById = function (id, callback) {
     });
     return;
 }
+
+//when UDID is preset in the queryString
+exports.getDeviceByUDID = function (UDID, callback) {
+    deviceModel.find({
+        $and: [
+            { $and: [{ UDID: UDID }] }
+        ]
+    }, function (err, results) {
+        if (err) {
+            console.log("error occured while searching device ");
+        }
+        else {
+            if (results.length > 0) {
+                callback(null, true);
+            }
+            else {
+                callback(null, false);
+
+            }
+        }
+        // if (results.length == 0) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+    });
+    return;
+}
 exports.postDevice = function (device, callback) {
     deviceModel.create(device, function (err, createddevice) {
         if (err) {
