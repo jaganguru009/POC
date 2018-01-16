@@ -4,8 +4,8 @@ var permissionGroupModel = require(appRoot + '/_api/permissiongroups/permissionG
 
 mongoose.connect("mongodb://localhost/hodelDB")
 
-exports.getpermisionGroups = function (queryString, callback) {
-    departmentModel.find((err, results) => {
+exports.getpermissionGroups = function (queryString, callback) {
+    permissionGroupModel.find((err, results) => {
         if (err) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
@@ -15,7 +15,7 @@ exports.getpermisionGroups = function (queryString, callback) {
             callback(null, results);
         }
     });
-    return
+    return;
 }
 exports.getPermissionGroupById = function (id, callback) {
     permissionGroupModel.findById(id, (err, group) => {

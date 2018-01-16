@@ -7,8 +7,17 @@ var permissionGroupService = require(appRoot + '/services/permissionGroupService
 var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function (req, res, next) {
-  permissionGroupService.getPermissionGroups("permissionGroups", function (err, results) {
-    res.send({ 'PermissionGroups': results });
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      permissionGroupService.getpermissionGroups("permissiongroups", function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+      })
+    }
   })
 
 });

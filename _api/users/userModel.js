@@ -25,7 +25,7 @@ var userSchema=mongoose.Schema(
         },
         phone:
         {
-            type:String,
+            type:Number,
             required:true
         },
         empCode:
