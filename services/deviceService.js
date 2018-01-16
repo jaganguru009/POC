@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var deviceModel = require(appRoot + '/_api/devices/deviceModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getDevices = function (queryString, callback) {
     deviceModel.find((err, results) => {

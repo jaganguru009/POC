@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
-var designationModel = require(appRoot + '/_api/designations/designationModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
+var designationModel = require(appRoot + '/_api/designations/designationModel'); 
 
 exports.getdesignations = function (queryString, callback) {
     designationModel.find((err, results) => {

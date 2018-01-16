@@ -7,15 +7,33 @@ var roleService = require(appRoot + '/services/roleService');
 var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function (req, res, next) {
-  roleService.getUsers("roles", function (err, results) {
-    res.send({ 'roles': results });
+  roleService.getRoles("roles", function (err, results) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send({ 'roles': results });
+    }
+
   })
 
 });
 
 // fetch one
 router.get('/:id', function (req, res, next) {
-  res.send('get role by id');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      roleService.getRoleById(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 
@@ -42,12 +60,37 @@ router.post('/', function (req, res, next) {
 
 // delete (needs to be replaced with archival so as not to lose context for other data)
 router.delete('/:id', function (req, res, next) {
-  res.send('delete role ');
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      roleService.deleteRole(req.params.id, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      });
+    }
+  });
 });
 
 // partial update
 router.patch('/:id', function (req, res, next) {
-  res.send("edit a role");
+  securedAPI.isSecured(req, res, function (err, isSecured) {
+    if (isSecured) {
+      roleService.patchRole(req.params.id, req.body, function (err, results) {
+        if (err) {
+          res.json(err);
+        }
+        else {
+          res.json(results);
+        }
+
+      })
+
+    }
+  })
 });
 
 module.exports = router;

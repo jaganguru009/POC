@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
-var roleModel = require(appRoot + '/_api/roles/roleModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
+var roleModel = require(appRoot + '/_api/roles/roleModel'); 
 
 exports.getRoles = function (queryString, callback) {
     roleModel.find((err, results) => {

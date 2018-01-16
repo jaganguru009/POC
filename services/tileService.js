@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var tileModel = require(appRoot + '/_api/tiles/tileModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getTiles = function (queryString, callback) {
     var results = "response from Tiles get";

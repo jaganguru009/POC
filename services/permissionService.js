@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var permissionModel = require(appRoot + '/_api/permissions/permissionModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getPermissions = function (queryString, callback) {
     permissionModel.find((err, results) => {

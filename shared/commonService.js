@@ -1,9 +1,6 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var permissionModel = require(appRoot + '/_api/permissions/permissionModel');
-var departmentModel = require(appRoot + '/_api/departments/departmentModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
+var departmentModel = require(appRoot + '/_api/departments/departmentModel'); 
 
 exports.getDashboard = function (user, callback) {
     //var results = "response from user get";

@@ -1,8 +1,6 @@
-var mongoose = require('mongoose');
-var appRoot = require('app-root-path');
-var departmentModel = require(appRoot + '/_api/departments/departmentModel');
 
-mongoose.connect("mongodb://localhost/hodelDB")
+var appRoot = require('app-root-path');
+var departmentModel = require(appRoot + '/_api/departments/departmentModel'); 
 
 exports.getDepartments = function (queryString, callback) {
     departmentModel.find((err, results) => {

@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      departmentService.getUserById(req.params.id, function (err, results) {
+      userService.getUserById(req.params.id, function (err, results) {
         if (err) {
           res.json(err);
         }
@@ -59,7 +59,7 @@ router.post('/', function (req, res, next) {
 router.delete('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      departmentService.deleteUser(req.params.id, function (err, results) {
+      userService.deleteUser(req.params.id, function (err, results) {
         if (err) {
           res.json(err);
         }
@@ -76,7 +76,7 @@ router.delete('/:id', function (req, res, next) {
 router.patch('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      departmentService.patchUser(req.params.id, req.body, function (err, results) {
+      userService.patchUser(req.params.id, req.body, function (err, results) {
         if (err) {
           res.json(err);
         }

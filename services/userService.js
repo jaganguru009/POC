@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var userModel = require(appRoot + '/_api/users/userModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getUsers = function (queryString, callback) {
     //var results = "response from user get";

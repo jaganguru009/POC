@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
-var permissionGroupModel = require(appRoot + '/_api/permissiongroups/permissionGroupModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
+var permissionGroupModel = require(appRoot + '/_api/permissiongroups/permissionGroupModel'); 
 
 exports.getpermissionGroups = function (queryString, callback) {
     permissionGroupModel.find((err, results) => {
@@ -73,7 +70,7 @@ exports.patchPermissionGroup = function (id, permissionGroup, callback) {
             result.lastUpdated = Date.now;
 
             // Save the updated document back to the database
-            result.save((err, res) => {
+            result.save((err, result) => {
                 if (err) {
                     callback(null, err);
                 }

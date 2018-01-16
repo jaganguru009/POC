@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
 var appRoot = require('app-root-path');
 var roomModel = require(appRoot + '/_api/rooms/roomModel');
-
-mongoose.connect("mongodb://localhost/hodelDB")
 
 exports.getRooms = function (queryString, callback) {
     roomModel.find((err, results) => {

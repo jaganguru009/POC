@@ -80,11 +80,13 @@ router.delete('/:id', function (req, res, next) {
 router.patch('/:id', function (req, res, next) {
   securedAPI.isSecured(req, res, function (err, isSecured) {
     if (isSecured) {
-      departmentService.patchPermissionGroup(req.params.id, req.body, function (err, results) {
+      permissionGroupService.patchPermissionGroup(req.params.id, req.body, function (err, results) {
         if (err) {
+          console.log("error 1")
           res.json(err);
         }
         else {
+          console.log("error 2")
           res.json(results);
         }
 
