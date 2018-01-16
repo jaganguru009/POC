@@ -7,9 +7,11 @@ exports.getpermissionGroups = function (queryString, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             // send the list of all people
             callback(null, results);
+            return;
         }
     });
     return;
@@ -20,15 +22,18 @@ exports.getPermissionGroupById = function (id, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             if (group == null) {
                 var response = {
                     "message": "No group found"
                 }
                 callback(null, response);
+                return;
             }
             else {
                 callback(null, group);
+                return;
             }
         }
     });
@@ -45,12 +50,10 @@ exports.postPermissionGroup = function (permisionGroup, callback) {
                 }
             }
             callback(null, err);
-
             return;
         }
         else {
             callback(null, createdpermisionGroup);
-
             return;
         }
     }
@@ -91,13 +94,25 @@ exports.deletePermissionGroup = function (id, callback) {
         // You can really do this however you want, though.
         if (err) {
             callback(null, err);
+            return;
         } else {
-            let response = {
-                message: "permissionGroup successfully deleted",
-                id: result._id
+            if(result==null)
+            {
+                 let response = {
+                message: "group not found"
             };
             callback(null, response);
+            return;
+            }else
+            {
+                let response = {
+                message: "group successfully deleted",
+                id: result._id
+             };
+            callback(null, response);
+            return;
+            }
+           
         }
-        return;
-    })
+    });
 }

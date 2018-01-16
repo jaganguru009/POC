@@ -7,9 +7,11 @@ exports.getRooms = function (queryString, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             // send the list of all people
             callback(null, results);
+            return;
         }
     });
     return;
@@ -21,15 +23,18 @@ exports.getRoomById = function (id, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
            if (room == null) {
                 var response = {
                     "message": "No room found"
                 }
                 callback(null, response);
+                return;
             }
             else {
                 callback(null, room);
+                return;
             }
         }
     });
@@ -45,12 +50,10 @@ exports.postRoom = function (room, callback) {
                 }
             }
             callback(null, err);
-
             return;
         }
         else {
             callback(null, createdroom);
-
             return;
         }
 
@@ -63,6 +66,7 @@ exports.patchRoom = function (id, room, callback) {
         // Handle any possible database errors
         if (err) {
             callback(null, err);
+            return;
         } else {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
@@ -75,18 +79,22 @@ exports.patchRoom = function (id, room, callback) {
             result.maxIpads = room.maxIpads || result.maxIpads;
             result.status = room.status || result.status;
             //result.created = room.created || result.created;
-            result.lastUpdated = Date.now;
+            result.lastUpdated = Date.now();
 
             // Save the updated document back to the database
             result.save((err, res) => {
                 if (err) {
                     callback(null, err);
+                    return;
+                }
+                else
+                { 
+                  callback(null, result);
+                  return;
                 }
                 // res.status(200).send(res);
             });
         }
-        callback(null, result);
-        return;
     });
 }
 
@@ -96,13 +104,25 @@ exports.deleteRoom = function (id, callback) {
         // You can really do this however you want, though.
         if (err) {
             callback(null, err);
+             return;
         } else {
-            let response = {
-                message: "room successfully deleted",
-                id: result._id
+            if(result==null)
+            {
+                 let response = {
+                message: "room not found"
             };
             callback(null, response);
+            return;
+            }else
+            {
+                let response = {
+                message: "room successfully deleted",
+                id: result._id
+             };
+            callback(null, response);
+            return;
+            }
+           
         }
-        return;
     })
 }

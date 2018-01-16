@@ -7,9 +7,11 @@ exports.getdesignations = function (queryString, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             // send the list of all people
             callback(null, results);
+            return;
         }
     });
     return;
@@ -20,12 +22,14 @@ exports.getDesignationById = function (id, callback) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             if (designation == null) {
                 var response = {
                     "message": "No designation found"
                 }
                 callback(null, response);
+                return;
             }
             else {
                 callback(null, designation);
@@ -56,23 +60,25 @@ exports.postDesignation = function (designation, callback) {
     }
     );
 }
-exports.patchdDesignation = function (designation, callback) {
+exports.patchDesignation = function (id, designation,callback) {
     designationModel.findById(id, (err, result) => {
         // Handle any possible database errors
         if (err) {
             callback(null, err);
+            return;
         } else {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
             result.name = designation.name || result.name;
             result.description = designation.description || result.description;
             //result.created = designation.created || result.created;
-            result.lastUpdated = Date.now;
+            result.lastUpdated = Date.now();
 
             // Save the updated document back to the database
             result.save((err, res) => {
                 if (err) {
                     callback(null, err);
+                    return;
                 }
                 // res.status(200).send(res);
             });
@@ -88,13 +94,25 @@ exports.deleteDesignation = function (id, callback) {
         // You can really do this however you want, though.
         if (err) {
             callback(null, err);
+            return;
         } else {
-            let response = {
-                message: "department successfully deleted",
-                id: result._id
+            if(result==null)
+            {
+                 let response = {
+                message: "designation not found"
             };
             callback(null, response);
-        }
-        return;
+            return;
+            }else
+            {
+                let response = {
+                message: "department successfully deleted",
+                id: result._id
+             };
+            callback(null, response);
+            return;
+            }
+           
+        } 
     })
 }
