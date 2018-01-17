@@ -1,45 +1,96 @@
 var appRoot = require('app-root-path');
 var permissionModel = require(appRoot + '/_api/permissions/permissionModel');
-var departmentModel = require(appRoot + '/_api/departments/departmentModel'); 
+var permissionGroupModel = require(appRoot + '/_api/permissiongroups/permissionGroupModel');
+var departmentModel = require(appRoot + '/_api/departments/departmentModel');
+var roleModel = require(appRoot + '/_api/roles/roleModel');
+var userModel = require(appRoot + '/_api/users/userModel');
 
-exports.getDashboard = function (user, callback) {
-    //var results = "response from user get";
-    userModel.find((err, results) => {
+exports.getDashboard = function(user, callback) {
+    //var results = "response from user get";  
+    roleModel.findById(user[0].roleId, (err, role) => {
+        console.log("Role" + JSON.stringify(role));
         if (err) {
             // Note that this error doesn't mean nothing was found,
             // it means the database had an error while searching, hence the 500 status
             callback(null, err);
+            return;
         } else {
             // send the list of all people
-            callback(null, results);
+            //callback(null, results);
+            permissionGroupModel.findById(role.permissionGroup, (err, permissionGroup) => {
+                if (err) {
+                    // Note that this error doesn't mean nothing was found,
+                    // it means the database had an error while searching, hence the 500 status
+                    callback(null, err);
+                    return;
+                }
+                else {
+                    permissionModel.find({
+                        $and: [
+                            { _id: { $in: permissionGroup.permissions } }
+                        ]
+                    }, function(err, results) {
+                        if (err) {
+                            console.log("error occured while searching user ");
+                            callback(null, err);
+                            return;
+                        }
+                        else {
+                            if (results.length > 0) {
+                                callback(null, results);
+                                return;
+                            }
+                            else {
+                                results = { "message": "No permissions Found" };
+                                callback(null, results);
+                                return;
+                            }
+                        }
+                        // if (results.length == 0) {
+                        //     return false;
+                        // } else {
+                        //     return true;
+                        // }
+                    });
+
+                }
+            }
+            );
         }
     });
 
     return;
 }
 
-exports.getUserById = function (id, callback) {
-    userModel.findById(id, (err, user) => {
+exports.getUserByUserName = function(userName, callback) {
+    userModel.find({
+        $and: [
+            { $and: [{ userName: userName }] }
+        ]
+    }, function(err, results) {
         if (err) {
-            // Note that this error doesn't mean nothing was found,
-            // it means the database had an error while searching, hence the 500 status
-            callback(null, err);
-        } else {
-            if (user == null) {
-                var response = {
-                    "message": "No user found"
-                }
-                callback(null, response);
+            console.log("error occured while searching user ");
+        }
+        else {
+            if (results.length > 0) {
+                callback(null, results);
             }
             else {
-                callback(null, user);
+                results = { "message": "No permissions Found" };
+                callback(null, results);
+
             }
         }
+        // if (results.length == 0) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
     });
     return;
 }
-exports.postUser = function (user, callback) {
-    userModel.create(user, function (err, createdUser) {
+exports.postUser = function(user, callback) {
+    userModel.create(user, function(err, createdUser) {
         if (err) {
             if (err.code === 11000) {
                 err = {
@@ -60,13 +111,13 @@ exports.postUser = function (user, callback) {
     }
     );
 }
-exports.isUserValidated = function (user, callback) {
+exports.isUserValidated = function(user, callback) {
     userModel.find({
         $and: [
             { $and: [{ userName: user.userName }] },
             { $and: [{ password: user.password }] }
         ]
-    }, function (err, results) {
+    }, function(err, results) {
         if (err) {
             console.log("error occured while searching user ");
         }
@@ -87,7 +138,7 @@ exports.isUserValidated = function (user, callback) {
     });
 
 }
-exports.patchUser = function (id, user, callback) {
+exports.patchUser = function(id, user, callback) {
     userModel.findById(id, (err, result) => {
         // Handle any possible database errors
         if (err) {
@@ -122,7 +173,7 @@ exports.patchUser = function (id, user, callback) {
     });
 }
 
-exports.deleteUser = function (id, callback) {
+exports.deleteUser = function(id, callback) {
     userModel.findByIdAndRemove(id, (err, result) => {
         // We'll create a simple object to send back with a message and the id of the document that was removed
         // You can really do this however you want, though.
