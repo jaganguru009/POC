@@ -9,8 +9,12 @@ var securedAPI = require(appRoot + '/middleware/securedAPI');
 router.get('/', function (req, res, next) {
   userService.getUsers("users", function (err, results) {
     if (err) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.status(500).send(err);
     } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.send({ 'users': results });
     }
 
