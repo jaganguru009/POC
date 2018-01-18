@@ -14,8 +14,6 @@ router.post('/', function (req, res, next) {
         if (isSuccess) {
             authenticationService.authenticate(req.body, function (err, token) {
                 if (err) {
-                    res.header("Access-Control-Allow-Origin", "*");
-                    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                     res.json(err);
                     return;
                 }
@@ -23,9 +21,7 @@ router.post('/', function (req, res, next) {
                     //res.json({ success: true, token: token });
                     commonService.getUserByUserName(req.body.userName, function (err, user) {
                         commonService.getDashboard(user, function (err, dashboard) {
-                            res.header("Access-Control-Allow-Origin", "*");
-                            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                            res.json({ dashboard: dashboard });
+                            res.json({ dashboard: dashboard, "token": token });
                             return;
                         });
                     });
@@ -33,8 +29,6 @@ router.post('/', function (req, res, next) {
             });
         }
         else {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.json({ "errorType": "loginFailed", "errorText": "Invalid credentials" });
             return;
         }
