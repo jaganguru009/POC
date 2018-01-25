@@ -8,11 +8,13 @@ var securedAPI = require(appRoot + '/middleware/securedAPI');
 
 router.get('/', function(req, res, next) {
     if (req.query.UDID != undefined) {
-        deviceService.getDeviceByUDID(req.query.UDID, function(err, results) {
+        deviceService.getDeviceByUDID(req.query.UDID,req.query.deviceToken, function(err, results) {
             if (err) {
                 res.json(err);
             }
             else {
+                results.notificationCount=0;
+                results.usUpdate="No";
                 res.json({"result":results});
             }
 

@@ -42,21 +42,26 @@ exports.getDeviceById = function (id, callback) {
 }
 
 //when UDID is preset in the queryString
-exports.getDeviceByUDID = function (UDID, callback) {
+exports.getDeviceByUDID = function (UDID, deviceToken, callback) {
     deviceModel.find({
         $and: [
-            { $and: [{ UDID: UDID }] }
+            { $and: [{ UDID: UDID }] },
+            { $and: [{ deviceToken: deviceToken }] }
         ]
     }, function (err, results) {
+        console.log("results" +JSON.stringify(results))
         if (err) {
             console.log("error occured while searching device ");
         }
         else {
             if (results.length > 0) {
-                callback(null, true);
+                results[0].result = true;
+                results[0].notificationCount = 0; //this needs to be dynamic
+                results[0].isUpdate = "No"; //this needs to be dynamic
+                callback(null, results[0]);
             }
             else {
-                callback(null, false);
+                callback(null, { result: false, message: "No device found for given UDID and deviceToken" });
 
             }
         }
@@ -97,7 +102,7 @@ exports.patchDevice = function (id, device, callback) {
         } else {
             // Update each attribute with any possible attribute that may have been submitted in the body of the request
             // If that attribute isn't in the request body, default back to whatever it was before.
-            result.UDID= device.UDID|| result.UDID;
+            result.UDID = device.UDID || result.UDID;
             result.status = device.status || result.status;
             result.deviceNumber = device.deviceNumber || result.deviceNumber;
             result.roomNumber = device.roomNumber || result.roomNumber;
@@ -108,14 +113,14 @@ exports.patchDevice = function (id, device, callback) {
             // Save the updated document back to the database
             result.save((err, result) => {
                 if (err) {
-                   callback(null, err);
-                     return;
+                    callback(null, err);
+                    return;
                 }
-                 callback(null, result);
-                  return;
+                callback(null, result);
+                return;
             });
-        } 
-       
+        }
+
     });
 }
 
@@ -127,23 +132,21 @@ exports.deleteDevice = function (id, callback) {
             callback(null, err);
             return;
         } else {
-            if(result==null)
-            {
-                 let response = {
-                message: "device not found"
-            };
-            callback(null, response);
-            return;
-            }else
-            {
+            if (result == null) {
                 let response = {
-                message: "device successfully deleted",
-                id: result._id
-             };
-            callback(null, response);
-            return;
+                    message: "device not found"
+                };
+                callback(null, response);
+                return;
+            } else {
+                let response = {
+                    message: "device successfully deleted",
+                    id: result._id
+                };
+                callback(null, response);
+                return;
             }
-           
+
         }
     })
 }
