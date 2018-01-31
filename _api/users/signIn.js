@@ -35,7 +35,7 @@ router.post('/', function (req, res, next) {
                             }
                             else {
                                 if (results.errorType == undefined)
-                                { res.json({ result: true, acessToken: token, device: results }); }
+                                { res.json({ result: true, acessToken: token, deviceNumber: device.deviceNumber }); }
                                 else {
                                     { res.json({ result: false, acessToken: token, error: results.errorType }); }
                                 }

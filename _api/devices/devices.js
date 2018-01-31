@@ -6,35 +6,33 @@ var jwt = require('jsonwebtoken');
 var deviceService = require(appRoot + '/services/deviceService');
 var securedAPI = require(appRoot + '/middleware/securedAPI');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     if (req.query.UDID != undefined) {
-        deviceService.getDeviceByUDID(req.query.UDID,req.query.deviceToken, function(err, results) {
+        deviceService.getDeviceByUDID(req.query.UDID, req.query.deviceToken, function (err, results) {
             if (err) {
                 res.json(err);
             }
             else {
-                results.notificationCount=0;
-                results.usUpdate="No";
-                res.json({"result":results});
+                res.json(results);
             }
 
         });
 
     }
     else {
-        deviceService.getDevices("devices", function(err, results) {
+        deviceService.getDevices("devices", function (err, results) {
             res.send({ 'devices': results });
         });
-    } 
+    }
 
 });
 
 // fetch one
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function (req, res, next) {
 
-    securedAPI.isSecured(req, res, function(err, isSecured) {
+    securedAPI.isSecured(req, res, function (err, isSecured) {
         if (isSecured) {
-            deviceService.getDeviceById(req.params.id, function(err, results) {
+            deviceService.getDeviceById(req.params.id, function (err, results) {
                 if (err) {
                     res.json(err);
                 }
@@ -50,10 +48,10 @@ router.get('/:id', function(req, res, next) {
 
 
 // create new object
-router.post('/', function(req, res, next) {
-    securedAPI.isSecured(req, res, function(err, isSecured) {
+router.post('/', function (req, res, next) {
+    securedAPI.isSecured(req, res, function (err, isSecured) {
         if (isSecured) {
-            deviceService.postDevice(req.body, function(err, results) {
+            deviceService.postDevice(req.body, function (err, results) {
                 if (err) {
                     res.json(err);
                 }
@@ -67,10 +65,10 @@ router.post('/', function(req, res, next) {
     })
 });
 
-router.delete('/:id', function(req, res, next) {
-    securedAPI.isSecured(req, res, function(err, isSecured) {
+router.delete('/:id', function (req, res, next) {
+    securedAPI.isSecured(req, res, function (err, isSecured) {
         if (isSecured) {
-            deviceService.deleteDevice(req.params.id, function(err, results) {
+            deviceService.deleteDevice(req.params.id, function (err, results) {
                 if (err) {
                     res.json(err);
                 }
@@ -86,10 +84,10 @@ router.delete('/:id', function(req, res, next) {
 });
 
 // partial update
-router.patch('/:id', function(req, res, next) {
-    securedAPI.isSecured(req, res, function(err, isSecured) {
+router.patch('/:id', function (req, res, next) {
+    securedAPI.isSecured(req, res, function (err, isSecured) {
         if (isSecured) {
-            deviceService.patchDevice(req.params.id, req.body, function(err, results) {
+            deviceService.patchDevice(req.params.id, req.body, function (err, results) {
                 if (err) {
                     res.json(err);
                     return;

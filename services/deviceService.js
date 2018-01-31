@@ -46,19 +46,38 @@ exports.getDeviceByUDID = function (UDID, deviceToken, callback) {
     deviceModel.find({
         $and: [
             { $and: [{ UDID: UDID }] },
-            { $and: [{ deviceToken: deviceToken }] }
+            // { $and: [{ deviceToken: deviceToken }] }
         ]
     }, function (err, results) {
-        console.log("results" +JSON.stringify(results))
+        console.log("results" + JSON.stringify(results))
         if (err) {
             console.log("error occured while searching device ");
         }
         else {
             if (results.length > 0) {
-                results[0].result = true;
-                results[0].notificationCount = 0; //this needs to be dynamic
-                results[0].isUpdate = "No"; //this needs to be dynamic
-                callback(null, results[0]);
+                var responseResult={};
+                responseResult.result = true;
+                responseResult.notificationCount = 0; //this needs to be dynamic
+                responseResult.isUpdate = "No"; //this needs to be dynamic
+                responseResult.roomNumber=results[0].roomNumber
+                results[0].UDID = results[0].UDID;
+                results[0].status = results[0].status;
+                results[0].deviceNumber = results[0].deviceNumber;
+                results[0].roomNumber = results[0].roomNumber;
+                results[0].deviceToken = deviceToken;
+                //result.created = device.created || result.created;
+                results[0].lastUpdated = Date.now();
+
+                // Save the updated document back to the database
+                results[0].save((err, result) => {
+                    if (err) {
+                        callback(null, err);
+                        return;
+                    }
+
+                    callback(null, responseResult);
+                    return;
+                });
             }
             else {
                 callback(null, { result: false, message: "No device found for given UDID and deviceToken" });
